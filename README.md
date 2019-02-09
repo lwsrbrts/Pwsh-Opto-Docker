@@ -14,6 +14,15 @@ sh get-docker.sh
 
 
 # Build the image
+
+## If you need git on the RaspberryPi
+
+```powershell
+sudo apt-get install git
+```
+
+## Clone the repo & build the image
+
 ```powershell
 git clone https://github.com/lwsrbrts/Pwsh-Opto-Docker.git ~/Pwsh-Opto-Docker/
 
@@ -26,7 +35,7 @@ Builds the image locally and tags it as `pwsh-opto:latest`
 
 ## Environment variables
 
-The environment variables must be passed to the container (PowerShell script ultimately).
+These environment variables must be passed to the container (PowerShell script ultimately).
 
 * `BRIDGEIP` - The local IP address of the Hue bridge.
 * `APIKEY` - The Hue User ID or API Key as provided by the bridge.
@@ -42,7 +51,7 @@ The environment variables must be passed to the container (PowerShell script ult
 
 This is an example docker run command which assumes the image has been built and called `pwsh-opto:latest`.
 
-### Interactive, single exection
+### Interactive, single execution, named
 
 ``` powershell
 docker run --rm -it --privileged \
