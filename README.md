@@ -1,6 +1,18 @@
 # Pwsh-Opto-Docker
 Docker container to run a PowerShell script which monitors GPIO pins for an opto-coupler circuit triggered by an AC voltage PIR. Additionally sends notifications using Pushover if the PIR is triggered between 1am and 5am as these are unsociable hours.
 
+## Installing Docker
+
+Go to `https://get.docker.com/`
+
+or
+
+```bash
+curl -fsSL https://get.docker.com -o get-docker.sh
+sh get-docker.sh
+```
+
+
 # Build the image
 ```powershell
 git clone https://github.com/lwsrbrts/Pwsh-Opto-Docker.git ~/Pwsh-Opto-Docker/
@@ -28,10 +40,14 @@ The environment variables must be passed to the container (PowerShell script ult
 
 ## Example
 
-This is an example docker run command which assumes the image has been built and called pwsh-opto:latest.
+This is an example docker run command which assumes the image has been built and called `pwsh-opto:latest`.
+
+### Interactive, single exection
 
 ``` powershell
-docker run --rm -it --privileged -h FRONT \
+docker run --rm -it --privileged \
+--name pwsh-opto \
+-h FRONT \
 -e BRIDGEIP=192.168.1.12 \
 -e APIKEY=abcdefghijklmnopqrstuvwxyz \
 -e EVENINGSCENE=abcdefghijklmnopqrstuvwxyz \
@@ -40,9 +56,29 @@ docker run --rm -it --privileged -h FRONT \
 -e PUSHUSER=abcdefghijklmnopqrstuvwxyz \
 -e PUSHDEVICE=pixel3xl \
 -e GPIOPIN=11 \
--e GROUPID=21
+-e GROUPID=21 \
 pwsh-opto:latest
 ```
+
+### Auto-healing, detached, named
+
+``` powershell
+docker run --privileged -d \
+--name pwsh-opto \
+--restart=unless-stopped \
+-h FRONT \
+-e BRIDGEIP=192.168.1.12 \
+-e APIKEY=abcdefghijklmnopqrstuvwxyz \
+-e EVENINGSCENE=abcdefghijklmnopqrstuvwxyz \
+-e NIGHTSCENE=abcdefghijklmnopqrstuvwxyz \
+-e PUSHTOKEN=abcdefghijklmnopqrstuvwxyz \
+-e PUSHUSER=abcdefghijklmnopqrstuvwxyz \
+-e PUSHDEVICE=pixel3xl \
+-e GPIOPIN=11 \
+-e GROUPID=21 \
+pwsh-opto:latest
+```
+
 
 * The host name should be set as this is used for the notifications. `-h`
 * `--privileged` is used to ensure the RasPberry Pi can access the GPIO pins

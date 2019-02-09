@@ -15,7 +15,7 @@ while ((Get-GpioPin -Id $Pin).Value -eq $On) {
 # Hue Stuff
 $HueBridgeIP = $env:BRIDGEIP
 $HueUserID = $env:APIKEY
-$HueGroup = $env:GROUPID
+[int]$HueGroup = $env:GROUPID
 $Garage = [HueGroup]::new($HueGroup, $HueBridgeIP, $HueUserID)
 $Scene = [HueScene]::new($HueBridgeIP, $HueUserID) # For setting scenes.
 $Concentrate = $env:EVENINGSCENE # Concentrate scene from the Hue Bridge for Group 21
