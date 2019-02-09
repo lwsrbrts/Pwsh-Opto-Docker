@@ -1,4 +1,5 @@
 # Pwsh-Opto-Docker
+
 Docker container to run a PowerShell script which monitors GPIO pins for an opto-coupler circuit triggered by an AC voltage PIR. Additionally sends notifications using Pushover if the PIR is triggered between 1am and 5am as these are unsociable hours.
 
 ## Installing Docker
@@ -12,9 +13,6 @@ curl -fsSL https://get.docker.com -o get-docker.sh
 sh get-docker.sh
 ```
 
-
-# Build the image
-
 ## If you need git on the RaspberryPi
 
 ```powershell
@@ -23,9 +21,15 @@ sudo apt-get install git
 
 ## Clone the repo & build the image
 
+The repo is private, you'll need to log in.
+
 ```powershell
 git clone https://github.com/lwsrbrts/Pwsh-Opto-Docker.git ~/Pwsh-Opto-Docker/
+```
 
+## Build the image
+
+```powershell
 cd ~/Pwsh-Opto-Docker/
 
 docker build --tag pwsh-opto .
@@ -87,7 +91,6 @@ docker run --privileged -d \
 -e GROUPID=21 \
 pwsh-opto:latest
 ```
-
 
 * The host name should be set as this is used for the notifications. `-h`
 * `--privileged` is used to ensure the RasPberry Pi can access the GPIO pins
