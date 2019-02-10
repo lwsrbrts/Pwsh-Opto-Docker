@@ -106,3 +106,19 @@ pwsh-opto:latest
 Redirect standard and error logs to a file.
 
 `docker container logs pwsh-opto >& logs.log`
+
+### Updating the container from GitHub
+
+Basically pull the Dockerfile and script from the GitHub repo and build it again then run once a new image is built.
+
+```powershell
+docker container stop pwsh-opto
+
+docker container rm pwsh-opto
+
+cd ~/Pwsh-Opto-Docker/
+
+git pull
+
+docker build --tag pwsh-opto .
+```
