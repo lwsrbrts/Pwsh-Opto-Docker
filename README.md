@@ -100,3 +100,9 @@ pwsh-opto:latest
 
 * `-h` will set the hostname which is used for the Pushover notifications.
 * `--privileged` is used to ensure the RasPberry Pi can access the GPIO pins.
+
+### Review logs from a container
+
+Redirect standard and error logs to a file.
+
+`docker container logs pwsh-opto >& logs.log`
