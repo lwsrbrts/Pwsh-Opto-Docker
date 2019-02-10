@@ -44,10 +44,10 @@ while ($true) {
 
     if ($Controlled -eq $false) {
         if ($Garage.AnyOn -eq $false) {
-            "$(Get-Date -f "dd-MM-yyyy HH:mm:ss"): Light released from manual control."
+            "`n$(Get-Date -f "dd-MM-yyyy HH:mm:ss"): Light released from manual control."
             $Controlled = $true
         }
-        else { "$(Get-Date -f "dd-MM-yyyy HH:mm:ss"): The light is still under manual control." }
+        else { Write-Host "." -NoNewline }
         Start-Sleep -Seconds 10
         continue
     }
@@ -80,7 +80,7 @@ while ($true) {
         $Controlled = $true
     }
     elseif (($CurrentState -eq $Off) -and ($PreviousState -eq $Off) -and ($Garage.AnyOn -eq $true)) {
-        "$(Get-Date -f "dd-MM-yyyy HH:mm:ss"): The light is under manual control."
+        "$(Get-Date -f "dd-MM-yyyy HH:mm:ss"): The light is now under manual control."
         $Controlled = $false # The light has been controlled manually.
     }
     Start-Sleep -Seconds 1
