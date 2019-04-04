@@ -10,7 +10,11 @@ If one PIR causes the light group to trigger, or it is triggerd manually by an a
 
 ## Octocoupler circuit
 
-The octocoupler circuit was purchased from eBay and is described as: `240V 220V AC Mains Sensor opto-isolator optoisolator optocoupler 5V 3.3V Arduino`
+The octocoupler, also described as an opto-isolator, isolates the mains/line voltage from the Raspberry Pi and is the safest way to detect AC voltage using a Raspberry Pi since the Pi is never in contact with the high AC voltage.
+
+The octocoupler circuit used was purchased from eBay and is described as:
+
+`240V 220V AC Mains Sensor opto-isolator optoisolator optocoupler 5V 3.3V Arduino`
 
 ![ebay seller](https://github.com/lwsrbrts/Pwsh-Opto-Docker/raw/master/ebay-seller.png "ebay seller")
 
@@ -21,7 +25,7 @@ The octo-coupler is connected to the Raspberry Pi as follows:
 
 ![Pin layout for octo-coupler](https://github.com/lwsrbrts/Pwsh-Opto-Docker/raw/master/Pin-layout.png "Pin layout for octo-coupler")
 
-PowerShell uses WiringPi pin numbering so the octo-coupler `OUT` is connected to physical pin `7`, which is also WiringPi pin `7`. If you are not using physical pin `7`, your WiringPi pin is different. For example, physical pin `26` is WiringPi pin `11` as far as the PowerShell IoT module is concerned.
+PowerShell uses WiringPi pin numbering so the octo-coupler `OUT` is connected to physical pin `7` on the Raspberry Pi's GPIO, which is also WiringPi pin `7`. If you are not using physical pin `7`, the WiringPi pin is (obviously) different. For example, physical pin `26` on the Raspberry Pi GPIO is WiringPi pin `11` as far as the PowerShell IoT module is concerned.
 
 ## Install Docker
 
@@ -113,8 +117,8 @@ docker run --privileged -d \
 pwsh-opto:latest
 ```
 
-* `-h` will set the hostname which is used for the Pushover notifications.
-* `--privileged` is used to ensure the RasPberry Pi can access the GPIO pins.
+* `-h` will set the hostname which is used in the Pushover notifications, naming the sensor that is emitting the notification.
+* `--privileged` is used to ensure the Raspberry Pi can access the GPIO pins.
 
 ### Review logs from a container
 
