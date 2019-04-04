@@ -8,11 +8,20 @@ Additionally, during 01:00 to 05:00 if motion is detected, which will cause the 
 
 If one PIR causes the light group to trigger, or it is triggerd manually by an app or switch, any other copies of this script that also trigger the same light(s) will notice and consider the lights to be under manual control, ensuring they don't interfere with whatever has been manually set.
 
+## Octocoupler circuit
+
+The octocoupler circuit was purchased from eBay and is described as: `240V 220V AC Mains Sensor opto-isolator optoisolator optocoupler 5V 3.3V Arduino`
+
+![ebay seller](https://github.com/lwsrbrts/Pwsh-Opto-Docker/raw/master/ebay-seller.png "ebay seller")
+
+
 ## Pin layout
 
 The octo-coupler is connected to the Raspberry Pi as follows:
 
 ![Pin layout for octo-coupler](https://github.com/lwsrbrts/Pwsh-Opto-Docker/raw/master/Pin-layout.png "Pin layout for octo-coupler")
+
+PowerShell uses WiringPi pin numbering so the octo-coupler `OUT` is connected to physical pin `7`, which is also WiringPi pin `7`. If you are not using physical pin `7`, your WiringPi pin is different. For example, physical pin `26` is WiringPi pin `11` as far as the PowerShell IoT module is concerned.
 
 ## Install Docker
 
