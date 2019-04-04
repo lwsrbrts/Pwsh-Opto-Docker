@@ -1,12 +1,18 @@
 # Pwsh-Opto-Docker
 
-Docker container to run a PowerShell script which monitors GPIO pins for an opto-coupler circuit triggered by an AC voltage PIR. Additionally sends notifications using Pushover if the PIR is triggered between 1am and 5am as these are unsociable hours.
+Docker container to run a PowerShell script which monitors a Raspberry Pi's GPIO pin (configurable) for an opto-coupler circuit triggered by an AC voltage PIR. Additionally sends notifications using Pushover if the PIR is triggered between 1am and 5am as these are unsociable hours.
 
 An AC voltage PIR is connected to an octo-coupler circuit which is in turn connected to a GPIO pin on a Raspberry Pi. When the PIR is activated by movement, the octo-coupler causes the GPIO pin to go low. The specified GPIO pin is monitored every second. When the pin goes LOW (zero, false) the PoSHue module tells a `[HueGroup]` to turn on by recalling a specific scene. During certain hours (from twilight) to 23:00, a "bright" evening scene is triggered, providing ample light for normal evening activities. After 23:00, a "dimmed" night scene is triggered instead to avoid flooding light on to neighbours' properties.
 
 Additionally, during 01:00 to 05:00 if motion is detected, which will cause the light group to illuminate, a notification is sent via the Pushover API (paid app from app stores) to a device of your choice that's registered with your account, advising the time of the event and to check CCTV.
 
 If one PIR causes the light group to trigger, or it is triggerd manually by an app or switch, any other copies of this script that also trigger the same light(s) will notice and consider the lights to be under manual control, ensuring they don't interfere with whatever has been manually set.
+
+## Pin layout
+
+The octo-coupler is connected to the Raspberry Pi as follows:
+
+![Pin layout for octo-coupler](https://github.com/lwsrbrts/Pwsh-Opto-Docker/raw/master/Pin-layout.png "Pin layout for octo-coupler")
 
 ## Install Docker
 
