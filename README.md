@@ -66,6 +66,7 @@ Builds the image locally and tags it as `pwsh-opto:latest`
 
 These environment variables must be passed to the container (PowerShell script ultimately).
 
+* `TZ` - The [timezone](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) in which your container is running. If not set, it'll be UTC.
 * `BRIDGEIP` - The local IP address of the Hue bridge.
 * `APIKEY` - The Hue User ID or API Key as provided by the bridge.
 * `EVENINGSCENE` - The Hue scene ID of the evening (primary or perhaps brightest) scene to use throughout most of the evening.
@@ -86,6 +87,7 @@ This is an example docker run command which assumes the image has been built and
 docker run --rm -it --privileged \
 --name pwsh-opto \
 -h FRONT \
+-e TZ=Europe/London
 -e BRIDGEIP=192.168.1.12 \
 -e APIKEY=abcdefghijklmnopqrstuvwxyz \
 -e EVENINGSCENE=abcdefghijklmnopqrstuvwxyz \
@@ -93,7 +95,7 @@ docker run --rm -it --privileged \
 -e PUSHTOKEN=abcdefghijklmnopqrstuvwxyz \
 -e PUSHUSER=abcdefghijklmnopqrstuvwxyz \
 -e PUSHDEVICE=pixel3xl \
--e GPIOPIN=11 \
+-e GPIOPIN=7 \
 -e GROUPID=21 \
 pwsh-opto:latest
 ```
@@ -105,6 +107,7 @@ docker run --privileged -d \
 --name pwsh-opto \
 --restart=unless-stopped \
 -h FRONT \
+-e TZ=Europe/London
 -e BRIDGEIP=192.168.1.12 \
 -e APIKEY=abcdefghijklmnopqrstuvwxyz \
 -e EVENINGSCENE=abcdefghijklmnopqrstuvwxyz \
@@ -112,7 +115,7 @@ docker run --privileged -d \
 -e PUSHTOKEN=abcdefghijklmnopqrstuvwxyz \
 -e PUSHUSER=abcdefghijklmnopqrstuvwxyz \
 -e PUSHDEVICE=pixel3xl \
--e GPIOPIN=11 \
+-e GPIOPIN=7 \
 -e GROUPID=21 \
 pwsh-opto:latest
 ```
