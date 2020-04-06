@@ -57,6 +57,9 @@ while ($true) {
         "$(Get-Date -f "dd-MM-yyyy HH:mm:ss"): Power sensed, switching the light ON!"
 
         if (((Get-Date) -gt '23:00') -or ((Get-Date) -lt '05:00')) {
+            
+            $Scene.SetHueScene('3-ztUI4tFkU4xuF') | Out-Null # Night scene
+
             $Scene.SetHueScene($Night) | Out-Null
             if (((Get-Date) -gt '23:00') -or ((Get-Date) -lt '01:00')) { } # If between 23:00 and 01:00 then do nothing
             elseif (((Get-Date) -gt '01:00') -and ((Get-Date) -lt '05:00')) { # else we raise a notification
@@ -67,6 +70,7 @@ while ($true) {
             }
         }
         else {
+            $Scene.SetHueScene('G8P-iJTQlHoHHhH') | Out-Null
             $Scene.SetHueScene($Concentrate) | Out-Null
         }
         $PreviousState = $On
