@@ -18,6 +18,8 @@ $HueUserID = $env:APIKEY
 [int]$HueGroup = $env:GROUPID
 $Garage = [HueGroup]::new($HueGroup, $HueBridgeIP, $HueUserID)
 $Scene = [HueScene]::new($HueBridgeIP, $HueUserID) # For setting scenes.
+$Garage = [HueGroup]::new($HueGroup, $HueBridgeIP, $HueUserID)
+$Garden = [HueLight]::new(45, $HueBridgeIP, $HueUserID)
 $Concentrate = $env:EVENINGSCENE # Concentrate scene from the Hue Bridge for Group 21
 $Night = $env:NIGHTSCENE # Night scene from the Hue Bridge for Group 21
 
@@ -79,6 +81,7 @@ while ($true) {
     elseif (($CurrentState -eq $Off) -and ($PreviousState -eq $On) -and ($Controlled -eq $true)) {
         # Turn the light off
         "$(Get-Date -f "dd-MM-yyyy HH:mm:ss"): Power lost, switching the light OFF!"
+        $Garden.SwitchHueLight('Off')
         $Garage.SwitchHueGroup('Off')
         $PreviousState = $Off
         $Controlled = $true
