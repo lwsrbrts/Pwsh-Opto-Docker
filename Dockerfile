@@ -9,7 +9,7 @@ ENV PS_PACKAGE_URL=https://github.com/PowerShell/PowerShell/releases/download/v$
 
 RUN \
   apt-get update \
-  && apt-get install --no-install-recommends tzdata ca-certificates libunwind8 libssl1.0 libicu66 less wget --yes \
+  && apt-get install --no-install-recommends tzdata ca-certificates libunwind8 '^libssl1.0.[0-9]$' libicu66 less wget --yes \
   && wget https://github.com/PowerShell/PowerShell/releases/download/v${PS_VERSION}/${PS_PACKAGE} \
   && mkdir ~/powershell \
   && tar -xvf ./${PS_PACKAGE} -C ~/powershell \
@@ -20,8 +20,8 @@ RUN \
 RUN \
   echo "export WIRINGPI_CODES=1"|tee -a /etc/profile.d/WiringPiCodes.sh
 
-#RUN \
-#  pwsh -NoProfile -ExecutionPolicy Bypass -Command "Install-Module -Name Microsoft.PowerShell.IoT -Scope AllUsers -Force -Confirm:0"
+RUN \
+  pwsh -NoProfile -ExecutionPolicy Bypass -Command "Install-Module -Name Microsoft.PowerShell.IoT -Scope AllUsers -Force -Confirm:0"
 
 COPY opto-docker.ps1 /bin/
 
