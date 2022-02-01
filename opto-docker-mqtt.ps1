@@ -24,13 +24,18 @@ while ($true) {
 
     if (($CurrentState -eq $On) -and ($PreviousState -eq $Off)) {
 
-        /usr/bin/mosquitto_pub -h $mqttServer -t "garage/$SensorName" --% -m "{"""state""":"""true"""}" -r
+        "$(Get-Date -f "dd-MM-yyyy HH:mm:ss"): Emitting power ON message."
+
+        /usr/bin/mosquitto_pub -h $mqttServer -t "garage/$SensorName" --% -r -q 2 -m "{"""state""":"""true"""}"
         
         $PreviousState = $On
     }
     elseif (($CurrentState -eq $Off) -and ($PreviousState -eq $On)) {
 
-        /usr/bin/mosquitto_pub -h $mqttServer -t "garage/$SensorName" --% -m "{"""state""":"""false"""}" -r
+        "$(Get-Date -f "dd-MM-yyyy HH:mm:ss"): Emitting power OFF message."
+
+        /usr/bin/mosquitto_pub -h $mqttServer -t "garage/$SensorName" --% -r -q 2 -m "{"""state""":"""false"""}"
+
         $PreviousState = $Off
     }
 
