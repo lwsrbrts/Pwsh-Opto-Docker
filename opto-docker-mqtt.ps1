@@ -23,18 +23,14 @@ while ($true) {
     $CurrentState = (Get-GpioPin -Id $Pin).Value
 
     if (($CurrentState -eq $On) -and ($PreviousState -eq $Off)) {
-        # Motion was detected because power to the octocoupler was switched on.
-        "$(Get-Date -f "dd-MM-yyyy HH:mm:ss"): Power sensed, switching the light ON!"
 
-        /usr/bin/mosquitto_pub -h $mqttServer -t "/garage/$SensorName" -m '{"state":true}'
+        /usr/bin/mosquitto_pub -h $mqttServer -t "garage/$SensorName" --% -m "{"""state""":"""true"""}" -r
         
         $PreviousState = $On
     }
     elseif (($CurrentState -eq $Off) -and ($PreviousState -eq $On)) {
-        # Turn the light off
-        "$(Get-Date -f "dd-MM-yyyy HH:mm:ss"): Power lost, switching the light OFF!"
 
-        /usr/bin/mosquitto_pub -h $mqttServer -t "/garage/$SensorName" -m '{"state":false}'
+        /usr/bin/mosquitto_pub -h $mqttServer -t "garage/$SensorName" --% -m "{"""state""":"""false"""}" -r
         $PreviousState = $Off
     }
 
