@@ -16,14 +16,15 @@ RUN \
   && tar -xvf ./${PS_PACKAGE} -C ~/powershell \
   && ln -s /root/powershell/pwsh /usr/bin/pwsh \
   && apt-get clean \
+  && rm -rf ./${PS_PACKAGE} \
   && rm -rf /var/lib/apt/lists/*
 
 RUN \
   echo "export WIRINGPI_CODES=1"|tee -a /etc/profile.d/WiringPiCodes.sh
 
 RUN \
-  pwsh -NoProfile -ExecutionPolicy Bypass -Command "Install-Module -Name Microsoft.PowerShell.IoT, PoSHue -Scope AllUsers -Force -Confirm:0"
+  pwsh -NoProfile -ExecutionPolicy Bypass -Command "Install-Module -Name Microsoft.PowerShell.IoT -Scope AllUsers -Force -Confirm:0"
 
-COPY opto-docker.ps1 /bin/
+COPY opto-docker-mqtt.ps1 /bin/
 
-ENTRYPOINT ["pwsh","-File","/bin/opto-docker.ps1"]
+ENTRYPOINT ["pwsh","-File","/bin/opto-docker-mqtt.ps1"]
