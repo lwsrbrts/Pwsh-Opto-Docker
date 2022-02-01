@@ -4,9 +4,10 @@ Import-Module Microsoft.PowerShell.IoT
 
 $Off = 1
 $On = 0
-$SensorName = $env:HOSTNAME
 $Pin = $env:GPIOPIN
-$mqttServer = $env:MQTTSERVER
+$hassServer = $env:HASSURL
+$sensorName = $env:SENSORNAME # must include scheme
+$Token = $env:LONGLIVEDTOKEN | ConvertTo-SecureString -AsPlainText -Force
 
 while ((Get-GpioPin -Id $Pin).Value -eq $On) {
     "Power is currently ON. Waiting for initial OFF state to begin monitoring..."
@@ -26,15 +27,31 @@ while ($true) {
 
         "$(Get-Date -f "dd-MM-yyyy HH:mm:ss"): Emitting power ON message."
 
-        /usr/bin/mosquitto_pub -h $mqttServer -t "garage/$SensorName" -i $SensorName --% -m "{"""state""":"""ON"""}" --repeat 3 --repeat-delay 1
-        
+        $Body = @{state='ON'}
+
+        Invoke-RestMethod -Uri $hassServer/api/states/$sensorName `
+            -Method Post `
+            -ContentType 'application/json' `
+            -Body (ConvertTo-Json $Body -Depth 4) `
+            -Authentication 'Bearer' `
+            -Token $Token `
+            -AllowUnencryptedAuthentication
+        #        
         $PreviousState = $On
     }
     elseif (($CurrentState -eq $Off) -and ($PreviousState -eq $On)) {
 
         "$(Get-Date -f "dd-MM-yyyy HH:mm:ss"): Emitting power OFF message."
 
-        /usr/bin/mosquitto_pub -h $mqttServer -t "garage/$SensorName" -i $SensorName --% -m "{"""state""":"""OFF"""}" --repeat 3 --repeat-delay 1
+        $Body = @{state='OFF'}
+
+        Invoke-RestMethod -Uri $hassServer/api/states/$sensorName `
+            -Method Post `
+            -ContentType 'application/json' `
+            -Body (ConvertTo-Json $Body -Depth 4) `
+            -Authentication 'Bearer' `
+            -Token $Token `
+            -AllowUnencryptedAuthentication
 
         $PreviousState = $Off
     }
