@@ -26,7 +26,7 @@ while ($true) {
 
         "$(Get-Date -f "dd-MM-yyyy HH:mm:ss"): Emitting power ON message."
 
-        /usr/bin/mosquitto_pub -h $mqttServer -t "garage/$SensorName" -i $SensorName  --% -m "{"""state""":"""ON"""}" --repeat 3 --repeat-delay 1
+        /usr/bin/mosquitto_pub -h $mqttServer -t "garage/$SensorName" -i $SensorName --% -m "{"""state""":"""ON"""}" --repeat 3 --repeat-delay 1
         
         $PreviousState = $On
     }
